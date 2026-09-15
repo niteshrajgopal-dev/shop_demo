@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+<style>
+html,body{margin:0;padding:0;background:#efece8;color:#1c1a1a;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#1c1a1a;text-decoration:none}a:hover{color:#1c1a1a}
+button{font:inherit}
+@keyframes floreaDot{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,7px,0)}}
+@media (prefers-reduced-motion:reduce){[data-dot]{animation:none !important}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="position:relative;overflow-x:clip;font-family:'Manrope',system-ui,sans-serif;color:#1c1a1a">
+  <section data-hero="1" data-screen-label="Hero" style="position:relative;height:100svh;min-height:700px;overflow:clip;isolation:isolate">
+    <div data-bg="1" aria-hidden="true" style="position:absolute;left:0;right:0;top:-12%;height:124%;z-index:0;opacity:0;will-change:transform;background:linear-gradient(180deg,#e6ecf3 0%,#f1efeb 30%,#ece4dd 46%,#cfcbcb 60%,#a9a8ab 76%,#8f9096 100%)">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 18% 18%,rgba(255,247,236,.95),rgba(255,247,236,0) 70%),radial-gradient(ellipse 50% 40% at 78% 30%,rgba(255,255,255,.7),rgba(255,255,255,0) 70%)"></div>
+      <div style="position:absolute;left:0;right:0;top:52%;height:22%;background:linear-gradient(180deg,rgba(120,118,125,0) 0%,rgba(120,118,125,.28) 40%,rgba(120,118,125,.42) 70%,rgba(120,118,125,.2) 100%);filter:blur(28px)"></div>
+      <div style="position:absolute;left:0;right:0;top:64%;bottom:0;background:linear-gradient(180deg,rgba(214,214,218,0) 0%,rgba(214,214,218,.55) 30%,rgba(190,192,200,.7) 100%)"></div>
+      <div style="position:absolute;left:-10%;width:40%;top:56%;height:30%;background:radial-gradient(ellipse at 50% 100%,rgba(96,96,104,.5),rgba(96,96,104,0) 70%);filter:blur(30px)"></div>
+      <div style="position:absolute;right:-8%;width:36%;top:40%;height:36%;background:radial-gradient(ellipse at 60% 100%,rgba(88,88,96,.55),rgba(88,88,96,0) 70%);filter:blur(26px)"></div>
+    </div>
+
+    <header data-reveal="nav" style="position:absolute;left:0;right:0;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:{{ L.navPad }};opacity:0">
+      <a href="#" style="font-family:'Instrument Serif',serif;font-size:30px;letter-spacing:-.01em;line-height:1">Floréa</a>
+      <nav aria-label="Primary" style="display:{{ L.navLinks }};gap:clamp(20px,2.6vw,40px);font-family:'Instrument Serif',serif;font-size:19px">
+        <a href="#collections" style="opacity:.92" style-hover="opacity:.6">Shop</a>
+        <a href="#" style="opacity:.92" style-hover="opacity:.6">Occasions</a>
+        <a href="#" style="opacity:.92" style-hover="opacity:.6">Subscriptions</a>
+        <a href="#" style="opacity:.92" style-hover="opacity:.6">About</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:22px">
+        <button type="button" aria-label="Search" style="background:none;border:0;padding:4px;cursor:pointer;display:flex;color:inherit"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8.5" cy="8.5" r="6"></circle><line x1="13" y1="13" x2="18" y2="18"></line></svg></button>
+        <button type="button" aria-label="Account" style="background:none;border:0;padding:4px;cursor:pointer;display:flex;color:inherit"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10" cy="6.5" r="3.5"></circle><path d="M3 18c1-4 4-5.5 7-5.5s6 1.5 7 5.5"></path></svg></button>
+        <button type="button" aria-label="Shopping bag, 0 items" style="background:none;border:0;padding:4px;cursor:pointer;display:flex;align-items:center;gap:8px;color:inherit;font-size:14px"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6.5" width="14" height="11" rx="1.5"></rect><path d="M6.5 6.5V5a3.5 3.5 0 0 1 7 0v1.5"></path></svg><span aria-hidden="true">(0)</span></button>
+      </div>
+    </header>
+
+    <div data-text="1" style="position:absolute;z-index:5;left:0;right:0;top:0;bottom:0;padding:{{ L.textPad }};display:flex;flex-direction:column;justify-content:{{ L.textJustify }};pointer-events:none">
+      <div style="max-width:{{ L.textMax }};pointer-events:auto">
+        <p data-reveal="eyebrow" style="margin:0 0 clamp(18px,2.4vw,34px);font-size:11px;letter-spacing:.32em;text-transform:uppercase;font-weight:500;opacity:0">Flowers for a brighter tomorrow</p>
+        <h1 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:{{ L.h1 }};line-height:.9;letter-spacing:-.025em;color:#1c1a1a">
+          <span style="display:block;overflow:hidden;padding-bottom:.04em"><span data-reveal="l1" style="display:block;opacity:0">More</span></span>
+          <span style="display:block;overflow:hidden;padding-bottom:.04em"><span data-reveal="l2" style="display:block;opacity:0">than flowers,</span></span>
+          <span style="display:block;overflow:hidden;padding-bottom:.08em"><span data-reveal="l3" style="display:block;opacity:0;font-style:italic">moments.</span></span>
+        </h1>
+        <p data-reveal="copy" style="margin:clamp(18px,2.4vw,30px) 0 0;max-width:34ch;font-family:'Instrument Serif',serif;font-size:clamp(18px,1.35vw,22px);line-height:1.4;opacity:0;text-wrap:pretty">Thoughtfully curated blooms for life's most meaningful moments.</p>
+        <div data-reveal="cta" style="margin-top:clamp(26px,3vw,44px);opacity:0">
+          <a href="#collections" onClick="{{ onCta }}" onMouseEnter="{{ ctaIn }}" onMouseLeave="{{ ctaOut }}" onFocus="{{ ctaIn }}" onBlur="{{ ctaOut }}" style="display:inline-flex;align-items:center;gap:18px;height:56px;padding:0 34px;border-radius:999px;background:#1c1a1a;color:#f4f1ec;font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:500;white-space:nowrap;transition:transform .25s ease,background-color .25s ease;will-change:transform" style-hover="transform:translateY(-2px);background:#0d0c0c" style-focus="outline:2px solid #1c1a1a;outline-offset:3px">
+            <span>Shop collections</span>
+            <span aria-hidden="true" style="{{ arrowStyle }}">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div data-scroll="bouquet" style="position:absolute;z-index:{{ L.bouquetZ }};right:{{ L.bouquetRight }};top:{{ L.bouquetTop }};width:{{ L.bouquetW }};will-change:transform;pointer-events:none">
+      <div data-mouse="bouquet" style="will-change:transform">
+        <div data-bouquet="1" style="opacity:0;will-change:transform">
+          <img src="assets/bouquet.png" alt="A hand-tied bouquet of blush garden roses, peonies and white blossoms" draggable="false" style="display:block;width:100%;height:auto;filter:drop-shadow(0 30px 40px rgba(60,40,40,.18))">
+        </div>
+      </div>
+    </div>
+
+    <sc-if value="{{ petalsReady }}" hint-placeholder-val="{{ false }}">
+    <sc-for list="{{ petals }}" as="p" hint-placeholder-count="0">
+      <div data-scroll="{{ p.zone }}" data-petal="{{ p.zone }}" data-o="{{ p.o }}" data-depth="{{ p.depth }}" aria-hidden="true" style="{{ p.wrapStyle }}">
+        <div data-mouse="{{ p.zone }}" data-depth="{{ p.depth }}" style="will-change:transform">
+          <div data-drift="{{ p.zone }}" data-seed="{{ p.seed }}" style="will-change:transform">
+            <div role="presentation" style="{{ p.imgStyle }}"></div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+    </sc-if>
+
+    <p data-reveal="caption" aria-label="Beauty in every season" style="position:absolute;z-index:5;right:{{ L.capRight }};top:{{ L.capTop }};margin:0;font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;line-height:1.9;text-align:right;color:#2a2727;opacity:0;white-space:nowrap">Beauty<br>in every<br>season</p>
+
+    <div data-reveal="scroll" aria-hidden="true" style="position:absolute;z-index:5;right:{{ L.scrollRight }};top:{{ L.scrollTop }};display:{{ L.scrollDisplay }};flex-direction:column;align-items:center;gap:10px;opacity:0">
+      <div style="width:84px;height:84px;border-radius:50%;border:1px solid rgba(28,26,26,.55);display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:.3em;text-transform:uppercase;font-weight:500">Scroll</div>
+      <span data-dot="1" style="display:block;width:4px;height:4px;border-radius:50%;background:#1c1a1a;animation:floreaDot 2.4s ease-in-out infinite;will-change:transform"></span>
+    </div>
+
+    <div data-reveal="bottom" style="position:absolute;z-index:5;left:{{ L.bottomLeft }};bottom:{{ L.bottomBottom }};display:flex;align-items:center;gap:22px;opacity:0">
+      <span style="font-family:'Instrument Serif',serif;font-size:26px;line-height:1;color:#3a3737">01</span>
+      <span style="display:block;width:76px;height:1px;background:rgba(28,26,26,.5)"></span>
+      <span style="font-size:10px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;line-height:1.9;color:#3a3737;white-space:nowrap">Bloom a<br>happier you</span>
+    </div>
+  </section>
+
+  <div data-sig="1" aria-hidden="true" style="position:absolute;z-index:7;left:{{ L.sigLeft }};top:calc(.7 * max(100svh, 700px));width:64px;opacity:0;pointer-events:none;will-change:transform">
+    <div data-drift="sig" data-seed="41" style="will-change:transform"><img src="assets/petal_01.png" alt="" draggable="false" style="display:block;width:100%;height:auto;transform:rotate(-20deg);filter:drop-shadow(0 12px 14px rgba(80,40,40,.18))"></div>
+  </div>
+
+  <section id="collections" data-screen-label="Collections" style="position:relative;z-index:1;background:#f4f1ed;min-height:100svh;padding:{{ L.colPad }}">
+    <p style="margin:0 0 20px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;font-weight:500;color:#5c5757">The collections</p>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(44px,5.6vw,92px);line-height:.95;letter-spacing:-.02em;max-width:14ch;text-wrap:pretty">Arrangements for <em style="font-style:italic">every</em> season.</h2>
+    <div style="margin-top:clamp(48px,6vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:28px">
+      <sc-for list="{{ collections }}" as="c" hint-placeholder-count="3">
+        <a href="#" style="display:block;color:inherit">
+          <div style="aspect-ratio:3/4;border-radius:2px;background:repeating-linear-gradient(135deg,#e6e0da 0 10px,#ece7e1 10px 20px);display:flex;align-items:flex-end;padding:18px;font-family:ui-monospace,monospace;font-size:11px;color:#6b6563;letter-spacing:.04em">{{ c.slot }}</div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:16px">
+            <span style="font-family:'Instrument Serif',serif;font-size:24px">{{ c.name }}</span>
+            <span style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5c5757">{{ c.from }}</span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;ambientIntensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;pointerParallax&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;foregroundBlur&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Petals&quot;}}">
+class Component extends DCLogic {
+  state = { bp: this.bpFor(typeof window !== 'undefined' ? window.innerWidth : 1440), ctaHover: false };
+  rootRef = React.createRef();
+  bpFor(w) { return w < 768 ? 'mobile' : w < 1100 ? 'tablet' : 'desktop'; }
+  petalDefs() {
+    // zone: bg | mid | fg. left/top in % of hero, s = scale of natural asset width, o = target opacity
+    return [
+      { id: 'b1', src: 'assets/petal_02.png', h: 44, w: 39, zone: 'bg', left: 31, top: 24, s: .6, o: .5, blur: .6, rot: 30, depth: 3, m: true },
+      { id: 'b2', src: 'assets/petal_05.png', h: 39, w: 41, zone: 'bg', left: 56, top: 80, s: .55, o: .45, blur: 1, rot: -40, depth: 2.5 },
+      { id: 'b3', src: 'assets/petal_08.png', h: 45, w: 57, zone: 'bg', left: 71, top: 19, s: .7, o: .6, blur: .4, rot: 12, depth: 3.5 },
+      { id: 'b4', src: 'assets/petal_09.png', h: 48, w: 52, zone: 'bg', left: 43, top: 61, s: .5, o: .5, blur: .8, rot: -15, depth: 2.5 },
+      { id: 'm1', src: 'assets/petal_01.png', h: 67, w: 58, zone: 'mid', left: 45, top: 12, s: 1.1, o: .95, blur: 0, rot: -12, depth: 14, m: true },
+      { id: 'm2', src: 'assets/petal_04.png', h: 65, w: 55, zone: 'mid', left: 76, top: 7, s: 1.25, o: 1, blur: 0, rot: 18, depth: 16, m: true },
+      { id: 'm3', src: 'assets/petal_07.png', h: 60, w: 64, zone: 'mid', left: 34, top: 65, s: 1.15, o: .95, blur: 0, rot: -30, depth: 17, m: true },
+      { id: 'm4', src: 'assets/petal_08.png', h: 45, w: 57, zone: 'mid', left: 51, top: 74, s: 1.0, o: .9, blur: 0, rot: 40, depth: 13 },
+      { id: 'm5', src: 'assets/petal_09.png', h: 48, w: 52, zone: 'mid', left: 85, top: 30, s: 1.0, o: .9, blur: 0, rot: -5, depth: 15 },
+      { id: 'm6', src: 'assets/petal_05.png', h: 39, w: 41, zone: 'mid', left: 29, top: 47, s: .9, o: .8, blur: 0, rot: 60, depth: 12 },
+      { id: 'm7', src: 'assets/petal_03_large.png', h: 114, w: 97, zone: 'mid', left: 73, top: 86, s: .85, o: .9, blur: 0, rot: 25, depth: 18 },
+      { id: 'f1', src: 'assets/petal_03_large.png', h: 114, w: 97, zone: 'fg', left: -5, top: 56, s: 2.6, o: .7, blur: 6, rot: 20, depth: 26 },
+      { id: 'f2', src: 'assets/petal_06_large.png', h: 105, w: 87, zone: 'fg', left: 55, top: 76, s: 2.8, o: .75, blur: 5, rot: -35, depth: 30, m: true },
+      { id: 'f3', src: 'assets/petal_06_large.png', h: 105, w: 87, zone: 'fg', left: 91, top: 58, s: 2.2, o: .65, blur: 5, rot: 15, depth: 24 },
+      { id: 'f4', src: 'assets/petal_03_large.png', h: 114, w: 97, zone: 'fg', left: 86, top: 88, s: 2.0, o: .6, blur: 4, rot: -60, depth: 22, t: false },
+      { id: 'f5', src: 'assets/petal_06_large.png', h: 105, w: 87, zone: 'fg', left: 6, top: 90, s: 1.8, o: .55, blur: 7, rot: 70, depth: 28, t: false },
+    ];
+  }
+  layout(bp) {
+    const d = {
+      navPad: 'clamp(22px,2.4vw,34px) clamp(32px,5.5vw,88px)', navLinks: 'flex',
+      textPad: '0 clamp(32px,5.5vw,88px)', textJustify: 'center', textMax: '46%',
+      h1: 'clamp(72px,8.6vw,150px)',
+      bouquetZ: 3, bouquetRight: '9%', bouquetTop: '9%', bouquetW: 'clamp(320px,45vw,720px)',
+      capRight: 'clamp(32px,5.5vw,88px)', capTop: '58%',
+      scrollRight: 'clamp(32px,5.5vw,88px)', scrollTop: '14%', scrollDisplay: 'flex',
+      bottomLeft: 'clamp(32px,5.5vw,88px)', bottomBottom: '9%',
+      sigLeft: '52%', colPad: 'clamp(80px,10vw,160px) clamp(32px,5.5vw,88px)',
+    };
+    if (bp === 'tablet') Object.assign(d, {
+      textMax: '52%', h1: 'clamp(60px,9vw,112px)',
+      bouquetRight: '4%', bouquetTop: '26%', bouquetW: 'min(46vw,520px)', capTop: '74%', scrollTop: '12%',
+    });
+    if (bp === 'mobile') Object.assign(d, {
+      navPad: '20px 22px', navLinks: 'none',
+      textPad: '0 22px', textJustify: 'flex-start', textMax: '100%',
+      h1: 'clamp(54px,15.5vw,88px)',
+      bouquetZ: 2, bouquetRight: '-22%', bouquetTop: '44%', bouquetW: 'min(115vw,560px)',
+      capRight: '22px', capTop: 'auto',
+      scrollDisplay: 'none', bottomLeft: '22px', bottomBottom: '30px',
+      sigLeft: '58%', colPad: '72px 22px',
+    });
+    return d;
+  }
+  renderVals() {
+    const bp = this.state.bp;
+    const L = this.layout(bp);
+    if (bp === 'mobile') L.textPad = '17vh 22px 0';
+    const z = { bg: 1, mid: 4, fg: 6 };
+    const fgBlurOn = this.props.foregroundBlur ?? true;
+    const petals = (this.state.bp ? this.petalDefs() : []).filter(p => bp === 'desktop' || (bp === 'tablet' ? p.t !== false : p.m)).map((p, i) => {
+      const blur = p.zone === 'fg' ? (fgBlurOn ? (bp === 'mobile' ? 2 : p.blur) : 0) : p.blur;
+      return {
+        ...p, seed: i + 1,
+        wrapStyle: `position:absolute;z-index:${z[p.zone]};left:${p.left}%;top:${p.top}%;opacity:0;pointer-events:none;will-change:transform`,
+        imgStyle: `display:block;width:${Math.round(p.w * p.s)}px;height:${Math.round(p.h * p.s)}px;background:url(${p.src}) center/contain no-repeat;transform:rotate(${p.rot}deg);filter:${blur ? `blur(${blur}px)` : 'none'};${p.zone === 'mid' ? 'filter:drop-shadow(0 10px 12px rgba(80,40,40,.15));' : ''}`,
+      };
+    });
+    return {
+      rootRef: this.rootRef, L, petals, petalsReady: true,
+      arrowStyle: `display:inline-block;transition:transform .25s ease;transform:translateX(${this.state.ctaHover ? 5 : 0}px)`,
+      ctaIn: () => this.setState({ ctaHover: true }),
+      ctaOut: () => this.setState({ ctaHover: false }),
+      onCta: (e) => {
+        e.preventDefault();
+        const el = document.getElementById('collections');
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' });
+      },
+      collections: [
+        { name: 'The Garden Edit', from: 'From $85', slot: 'collection photo — blush roses' },
+        { name: 'Quiet Whites', from: 'From $95', slot: 'collection photo — white blooms' },
+        { name: 'Seasonal Stems', from: 'From $65', slot: 'collection photo — mixed stems' },
+      ],
+    };
+  }
+  componentDidMount() {
+    this.onResize = () => { const bp = this.bpFor(window.innerWidth); if (bp !== this.state.bp) this.setState({ bp }); };
+    window.addEventListener('resize', this.onResize);
+    let tries = 0;
+    const wait = () => {
+      if (window.gsap && window.ScrollTrigger && window.MotionPathPlugin) return this.init();
+      if (++tries > 120) return this.fallback();
+      setTimeout(wait, 50);
+    };
+    wait();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    if (this.onMove) window.removeEventListener('pointermove', this.onMove);
+    if (this.ctx) this.ctx.revert();
+  }
+  fallback() {
+    const root = this.rootRef.current; if (!root) return;
+    root.querySelectorAll('[data-reveal],[data-bouquet],[data-bg],[data-petal],[data-sig]').forEach(el => { el.style.opacity = el.dataset.o || 1; });
+  }
+  init() {
+    const gsap = window.gsap; const ST = window.ScrollTrigger;
+    gsap.registerPlugin(ST, window.MotionPathPlugin);
+    const root = this.rootRef.current; if (!root) return;
+    const q = s => Array.from(root.querySelectorAll(s));
+    const hero = root.querySelector('[data-hero]');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const touch = matchMedia('(pointer: coarse)').matches;
+    const bp = this.state.bp;
+    const intensity = this.props.ambientIntensity ?? 1;
+    const parallaxOn = (this.props.pointerParallax ?? true) && !touch && !reduce && bp !== 'mobile';
+    const r = k => root.querySelector(`[data-reveal="${k}"]`);
+    // seeded pseudo random so re-runs are stable
+    const rng = seed => () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+
+    this.ctx = gsap.context(() => {
+      const bg = root.querySelector('[data-bg]');
+      const bouquet = root.querySelector('[data-bouquet]');
+      const petals = q('[data-petal]');
+      const sig = root.querySelector('[data-sig]');
+      const lines = ['l1', 'l2', 'l3'].map(r);
+
+      if (reduce) {
+        const tl = gsap.timeline({ defaults: { ease: 'power1.out', duration: .6 } });
+        tl.to(bg, { opacity: 1 }, 0).to(bouquet, { opacity: 1 }, .1)
+          .to(q('[data-reveal]'), { opacity: 1, stagger: .06 }, .2)
+          .to(petals, { opacity: (i, el) => +el.dataset.o, stagger: .03 }, .3)
+          .to(sig, { opacity: .95 }, .4);
+        return;
+      }
+
+      gsap.set(bouquet, { y: 40, scale: 1.08, rotation: -.75, transformOrigin: '50% 60%' });
+      gsap.set(lines, { yPercent: 110 });
+      gsap.set([r('eyebrow'), r('copy'), r('cta'), r('caption'), r('scroll'), r('bottom')], { y: 24 });
+
+      // ambient
+      const ambient = [];
+      const startAmbient = () => {
+        q('[data-drift]').forEach(el => {
+          const zone = el.dataset.drift; const rnd = rng(+el.dataset.seed * 17 + 3);
+          const amp = (zone === 'bg' ? 26 : zone === 'fg' ? 80 : 50) * intensity;
+          const sx = rnd() > .5 ? 1 : -1, sy = rnd() > .3 ? 1 : -1;
+          const d = 9 + rnd() * 7;
+          const tl = gsap.timeline({ repeat: -1, yoyo: true, delay: rnd() * 3, defaults: { ease: 'sine.inOut' } });
+          tl.to(el, { x: sx * amp * (.4 + rnd() * .4), y: sy * amp * (.5 + rnd() * .5), rotation: (rnd() * 40 - 20) * intensity, duration: d * .45 })
+            .to(el, { x: sx * amp * (.9 + rnd() * .5), y: sy * amp * (1.2 + rnd() * .8), rotation: (rnd() * 70 + 20) * (rnd() > .5 ? 1 : -1) * intensity, duration: d * .55 });
+          ambient.push(tl);
+        });
+        // bouquet idle
+        const idle = gsap.timeline({ defaults: { ease: 'sine.inOut' } });
+        idle.to(bouquet, { y: -8, x: -2, rotation: -.4, duration: 2.7 })
+          .to(bouquet, { y: 8, x: 3, rotation: .45, duration: 5.4, repeat: -1, yoyo: true });
+        ambient.push(idle);
+        ST.create({ trigger: hero, start: 'top bottom', end: 'bottom top', onToggle: s => ambient.forEach(t => s.isActive ? t.resume() : t.pause()) });
+      };
+
+      // load sequence
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      tl.to(bg, { opacity: 1, duration: 1.6, ease: 'power2.out' }, 0)
+        .to(r('nav'), { opacity: 1, duration: 1.2 }, .1)
+        .to(bouquet, { opacity: 1, scale: 1, y: 0, rotation: 0, duration: 1.5 }, .15)
+        .to(r('eyebrow'), { opacity: 1, y: 0, duration: 1 }, .35)
+        .to(lines[0], { opacity: 1, yPercent: 0, duration: 1.2 }, .5)
+        .to(lines[1], { opacity: 1, yPercent: 0, duration: 1.2 }, .63)
+        .to(lines[2], { opacity: 1, yPercent: 0, duration: 1.2 }, .77)
+        .to(r('copy'), { opacity: 1, y: 0, duration: 1 }, .95)
+        .to(r('cta'), { opacity: 1, y: 0, duration: 1 }, 1.1)
+        .to(r('caption'), { opacity: 1, y: 0, duration: 1 }, 1.2)
+        .to(r('scroll'), { opacity: 1, y: 0, duration: 1 }, 1.3)
+        .to(r('bottom'), { opacity: 1, y: 0, duration: 1 }, 1.3)
+        .to(petals, { opacity: (i, el) => +el.dataset.o, duration: 1.6, ease: 'power2.out', stagger: { each: .07, from: 'random' } }, 1.0)
+        .to(sig, { opacity: .95, duration: 1.4 }, 1.3)
+        .add(startAmbient, 1.4);
+
+      // pointer parallax
+      if (parallaxOn) {
+        const f = bp === 'tablet' ? .75 : 1;
+        const layers = q('[data-mouse]').map(el => {
+          const zone = el.dataset.mouse;
+          const depth = zone === 'bouquet' ? 9 : +el.dataset.depth || 12;
+          const dir = zone === 'bg' ? -1 : 1;
+          return { xTo: gsap.quickTo(el, 'x', { duration: 1.1, ease: 'power2.out' }), yTo: gsap.quickTo(el, 'y', { duration: 1.1, ease: 'power2.out' }), depth: depth * f, dir, ry: zone === 'bouquet' ? .7 : .85 };
+        });
+        const bgTo = { xTo: gsap.quickTo(bg, 'x', { duration: 1.4, ease: 'power2.out' }), yTo: gsap.quickTo(bg, 'y', { duration: 1.4, ease: 'power2.out' }) };
+        this.onMove = e => {
+          const nx = (e.clientX / window.innerWidth - .5) * 2, ny = (e.clientY / window.innerHeight - .5) * 2;
+          layers.forEach(l => { l.xTo(nx * l.depth * l.dir); l.yTo(ny * l.depth * l.ry * l.dir); });
+          bgTo.xTo(-nx * 3 * f); bgTo.yTo(-ny * 2 * f);
+        };
+        window.addEventListener('pointermove', this.onMove, { passive: true });
+      }
+
+      // scroll parallax
+      const scrub = { trigger: hero, start: 'top top', end: 'bottom top', scrub: true };
+      const bgScroll = root.querySelector('[data-bg] > div');
+      gsap.to(bgScroll, { yPercent: -6, ease: 'none', scrollTrigger: scrub });
+      gsap.to(root.querySelector('[data-scroll="bouquet"]'), { y: -90, scale: 1.035, ease: 'none', scrollTrigger: scrub });
+      gsap.to(q('[data-scroll="bg"]'), { y: -45, ease: 'none', scrollTrigger: scrub });
+      gsap.to(q('[data-scroll="mid"]'), { y: -150, ease: 'none', scrollTrigger: scrub });
+      gsap.to(q('[data-scroll="fg"]'), { y: -240, ease: 'none', scrollTrigger: scrub });
+      gsap.to([root.querySelector('[data-text]'), r('caption'), r('bottom'), r('scroll')], { y: -36, opacity: .45, ease: 'none', scrollTrigger: scrub });
+
+      // signature petal: curved path out of the hero into the next section
+      // path length scales with the hero so the petal stays in view on short viewports
+      const H = hero.offsetHeight, span = H * 1.15;
+      gsap.to(sig, {
+        motionPath: { path: [{ x: 0, y: 0 }, { x: -150, y: span * .3 }, { x: 110, y: span * .65 }, { x: -40, y: span }], curviness: 1.6 },
+        rotation: 230, ease: 'none',
+        scrollTrigger: { trigger: hero, start: 'top top', end: () => '+=' + span, scrub: 1.2, invalidateOnRefresh: true },
+      });
+    }, root);
+  }
+}
+</script>
+</body>
+</html>

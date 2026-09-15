@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" role="img" aria-label="Flower shop">
+  <circle cx="20" cy="20" r="10" fill="#14532d"/>
+  <circle cx="32" cy="12" r="8" fill="#ec4899"/>
+  <circle cx="32" cy="28" r="8" fill="#f472b6"/>
+  <circle cx="12" cy="12" r="7" fill="#86efac"/>
+  <circle cx="12" cy="28" r="7" fill="#bbf7d0"/>
+  <text x="48" y="26" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#14532d">flowers</text>
+</svg>

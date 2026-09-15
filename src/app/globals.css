@@ -1,0 +1,528 @@
+@import "tailwindcss";
+
+/* ============================================================
+   shop_demo — flower shop design tokens.
+   Defaults match the Flowers QOS tenant manifest palette.
+   ============================================================ */
+@theme {
+  /* --- core palette (flower shop) --- */
+  --color-espresso: #14532d;
+  --color-mocha: #166534;
+  --color-latte: #ec4899;
+  --color-cream: #fff7ed;
+  --color-ink: #1f2937;
+
+  /* --- six canonical ui tokens --- */
+  --color-bg: #fff7ed;
+  --color-surface: #fffbeb;
+  --color-fg: #14532d;
+  --color-muted: #4d7c0f;
+  --color-line: #fde68a;
+  --color-accent: #ec4899;
+
+  /* --- semantic, muted to harmonise with the warm palette --- */
+  --color-success: #5e7355;
+  --color-warning: #b98a3c;
+  --color-error: #a5482e;
+  --color-info: #5a6b73;
+
+  /* --- green tonal scale --- */
+  --color-espresso-50: color-mix(in oklab, #14532d, #fff7ed 92%);
+  --color-espresso-100: color-mix(in oklab, #14532d, #fff7ed 82%);
+  --color-espresso-200: color-mix(in oklab, #14532d, #fff7ed 66%);
+  --color-espresso-300: color-mix(in oklab, #14532d, #fff7ed 50%);
+  --color-espresso-400: color-mix(in oklab, #14532d, #fff7ed 34%);
+  --color-espresso-500: color-mix(in oklab, #14532d, #fff7ed 18%);
+  --color-espresso-600: color-mix(in oklab, #14532d, #fff7ed 8%);
+  --color-espresso-700: #14532d;
+  --color-espresso-800: color-mix(in oklab, #14532d, #000 22%);
+  --color-espresso-900: color-mix(in oklab, #14532d, #000 42%);
+
+  /* --- accent tonal scale --- */
+  --color-latte-50: color-mix(in oklab, #ec4899, #fff7ed 80%);
+  --color-latte-100: color-mix(in oklab, #ec4899, #fff7ed 60%);
+  --color-latte-200: color-mix(in oklab, #ec4899, #fff7ed 38%);
+  --color-latte-300: color-mix(in oklab, #ec4899, #fff7ed 18%);
+  --color-latte-400: #ec4899;
+  --color-latte-500: color-mix(in oklab, #ec4899, #166534 14%);
+  --color-latte-600: color-mix(in oklab, #ec4899, #166534 30%);
+  --color-latte-700: color-mix(in oklab, #ec4899, #166534 48%);
+  --color-latte-800: color-mix(in oklab, #ec4899, #14532d 62%);
+  --color-latte-900: color-mix(in oklab, #ec4899, #14532d 78%);
+
+  /* --- type stacks --- */
+  --font-serif: var(--font-young-serif), "Recoleta", Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- radius: restrained, 4–20px --- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* --- elevation: soft & rare --- */
+  --shadow-sm: 0 1px 2px rgba(47, 35, 34, 0.06);
+  --shadow-md: 0 6px 20px -8px rgba(47, 35, 34, 0.18);
+  --shadow-lg: 0 24px 60px -24px rgba(47, 35, 34, 0.28);
+  --shadow-lift: 0 20px 44px -22px rgba(47, 35, 34, 0.4);
+
+  /* --- motion: 150 / 260 / 400ms on one shared easing --- */
+  --ease-brand: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-std: 260ms;
+  --duration-slow: 400ms;
+}
+
+/* Layout tokens live outside @theme: they are consumed as raw vars. */
+:root {
+  --mx: clamp(20px, 5vw, 72px);
+  --maxw: 1160px;
+  --border-on-dark: rgba(245, 241, 233, 0.14);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Sticky header + mobile tab bar offset for in-page anchors. */
+    scroll-padding-top: 88px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  ::selection {
+    background: var(--color-latte);
+    color: var(--color-espresso);
+  }
+
+  /* Focus rings: 3px latte outline, 2px offset — from the a11y foundation. */
+  :focus-visible {
+    outline: 3px solid var(--color-latte);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Warm, hairline-thin scrollbar so the chrome stays on-brand. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-latte) transparent;
+  }
+}
+
+@layer components {
+  /* --- shared layout rhythm --- */
+  .wrap {
+    max-width: var(--maxw);
+    margin-inline: auto;
+    padding-inline: var(--mx);
+    width: 100%;
+  }
+
+  .wrap-wide {
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: var(--mx);
+    width: 100%;
+  }
+
+  /* --- the bean mark --- */
+  .bean-body {
+    fill: var(--color-accent);
+  }
+
+  .bean-crease {
+    stroke: var(--color-fg);
+    stroke-width: 4;
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  .on-dark .bean-crease,
+  .bean-on-dark .bean-crease {
+    stroke: var(--color-espresso);
+  }
+
+  /* --- type roles from the foundations type scale --- */
+  .t-display-xl {
+    font-family: var(--font-serif);
+    font-size: clamp(2.75rem, 8vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .t-display-hero {
+    font-family: var(--font-serif);
+    font-size: clamp(3.25rem, 7vw, 7.25rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+
+  .t-section-title {
+    font-family: var(--font-serif);
+    font-size: var(--q-section);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+
+  .seam-top {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    margin-top: calc(var(--radius-xl) * -1);
+  }
+
+  .grain-overlay {
+    pointer-events: none;
+    position: fixed;
+    inset: -10%;
+    z-index: 60;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    animation: grain 1.2s steps(2) infinite;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  }
+
+  .t-display-l {
+    font-family: var(--font-serif);
+    font-size: clamp(2.375rem, 6vw, 3.5625rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .t-display-m {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 2.8125rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .t-h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .t-h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3vw, 1.75rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .t-h3 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 2vw, 1.375rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .t-h4 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: clamp(1.0625rem, 1.6vw, 1.125rem);
+    line-height: 1.3;
+  }
+
+  .t-body-l {
+    font-size: clamp(1.0625rem, 1.5vw, 1.125rem);
+    line-height: 1.6;
+  }
+
+  .t-body-s {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+
+  .t-caption {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    color: var(--color-muted);
+  }
+
+  /* Overline / eyebrow / label — mono, wide tracking, uppercase. */
+  .t-overline {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .t-label {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* --- art-directed photography plates ---
+     The export ships photography as tonal plates with a grain overlay
+     rather than stock imagery. Kept as the real treatment. */
+  .plate-grain {
+    background-image:
+      radial-gradient(circle at 30% 20%, rgba(203, 183, 146, 0.35), transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.5), transparent 60%);
+    mix-blend-mode: overlay;
+    opacity: 0.5;
+  }
+
+  /* --- brand patterns & textures --- */
+  .pat-bean-repeat {
+    background-color: var(--color-cream);
+    background-image: radial-gradient(
+      circle at 50% 42%,
+      transparent 44%,
+      var(--color-latte) 45% 55%,
+      transparent 56%
+    );
+    background-size: 34px 46px;
+  }
+
+  .pat-paper {
+    background: linear-gradient(135deg, #efe7d6, #e3d6bd);
+  }
+
+  .pat-oversized-bean {
+    background: var(--color-espresso);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pat-oversized-bean::before {
+    content: "";
+    position: absolute;
+    right: -40px;
+    bottom: -60px;
+    width: 260px;
+    height: 340px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: color-mix(in oklab, var(--color-mocha), var(--color-latte) 22%);
+  }
+
+  /* --- flower mark divider --- */
+  .divider-mark,
+  .divider-bean {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--color-muted);
+  }
+
+  .divider-bean::before,
+  .divider-bean::after {
+    content: "";
+    height: 1px;
+    background: var(--color-line);
+    flex: 1;
+  }
+
+  /* --- hide scrollbars on horizontal category rails --- */
+  .rail {
+    display: flex;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+  }
+
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility no-tap-highlight {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes mark-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-mark-spin,
+.animate-bean-spin {
+  animation: mark-spin 1.6s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes grain {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-2%, -2%);
+  }
+}
+
+@keyframes florea-dot {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 7px, 0);
+  }
+}
+
+.florea-dot {
+  animation: florea-dot 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .florea-dot {
+    animation: none !important;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise-in {
+  animation: rise-in var(--duration-slow) var(--ease-brand) both;
+}
+
+@keyframes sheet-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes sheet-in-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes veil-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-veil-in {
+  animation: veil-in var(--duration-std) var(--ease-brand) both;
+}
+
+.animate-sheet-right {
+  animation: sheet-in-right var(--duration-std) var(--ease-brand) both;
+}
+
+.animate-sheet-bottom {
+  animation: sheet-in-bottom var(--duration-std) var(--ease-brand) both;
+}
+
+html[dir="rtl"] body {
+  text-align: start;
+}
+
+.ltr-isolate {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+html[dir="rtl"] .sheet-panel[data-side="right"] {
+  inset-inline-end: 0;
+  inset-inline-start: auto;
+}
+
+/* Synthetic retail tenant preset (QOS-52 flower shop proof). */
+html[data-theme="retail"] {
+  --color-espresso: #14532d;
+  --color-mocha: #166534;
+  --color-latte: #ec4899;
+  --color-cream: #fff7ed;
+  --color-bg: #fff7ed;
+  --color-surface: #fffbeb;
+  --color-fg: #14532d;
+  --color-muted: #4d7c0f;
+  --color-line: #fde68a;
+  --color-accent: #ec4899;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
