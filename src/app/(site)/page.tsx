@@ -1,8 +1,7 @@
 import Link from "next/link";
 
-import { Collections } from "@/components/Collections";
+import { FloreaLanding } from "@/components/florea/florea-landing";
 import { HospitalityLanding } from "@/components/home/hospitality-landing";
-import { Hero } from "@/components/hero/Hero";
 import { TravelArrow } from "@/components/ui/button";
 import { resolveHeroContentBlock } from "@/lib/storefront/content-blocks";
 import { resolveStorefrontContextFromHeaders } from "@/lib/storefront/context.server";
@@ -54,8 +53,7 @@ export default async function HomePage() {
   if (context.themePreset.id === "generic_retail_baseline") {
     return (
       <>
-        <Hero brandName={context.brandName} />
-        <Collections />
+        <FloreaLanding brandName={context.brandName} />
         <HomeLocations locations={context.manifest.locations} />
       </>
     );
