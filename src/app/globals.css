@@ -411,6 +411,40 @@
   }
 }
 
+@keyframes florea-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.florea-rise {
+  animation: florea-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.florea-rise-delay-1 {
+  animation-duration: 1s;
+  animation-delay: 0.1s;
+}
+
+.florea-rise-delay-2 {
+  animation-duration: 1s;
+  animation-delay: 0.25s;
+}
+
+.florea-rise-delay-3 {
+  animation-duration: 1s;
+  animation-delay: 0.35s;
+}
+
+[data-paused="true"] * {
+  animation-play-state: paused !important;
+}
+
 @keyframes florea-dot {
   0%,
   100% {
@@ -426,7 +460,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .florea-dot {
+  .florea-dot,
+  .florea-rise,
+  .florea-rise-delay-1,
+  .florea-rise-delay-2,
+  .florea-rise-delay-3 {
     animation: none !important;
   }
 }

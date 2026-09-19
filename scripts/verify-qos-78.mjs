@@ -50,8 +50,8 @@ console.log("QOS-78 verification");
   const { response, text } = await fetchJson(`${FLOWERS}/`);
   check(response.ok, `flowers home expected 200, got ${response.status}`);
   check(
-    text.includes("Shop collections") || text.includes("/hero/bouquet"),
-    "flowers home missing Floréa hero",
+    text.includes("Explore the collection") || text.includes("Nature"),
+    "flowers home missing Floréa landing",
   );
   console.log("  · flowers Floréa home ok");
 }
