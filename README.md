@@ -46,11 +46,11 @@ npm run verify:qos-78   # full flowers/quotes host isolation + health
 npm run verify:qos-77   # Floréa hero screenshots (local Playwright)
 ```
 
-## Deploy (isolated dev storefront instances)
+## Deploy (isolated dev storefront instances — ADR-SF-01)
 
 Builds as a Next.js standalone app (`output: "standalone"`) — see `Dockerfile`.
 
-Build once, then deploy the same image tag to each storefront instance explicitly. The deploy script requires `-ContainerAppName` and rejects the legacy shared app `ca-qos-dev-storefront`.
+Under ADR-SF-01 / QOS-80 v8 topology, each tenant has a **dedicated** Container App. Build once, then deploy the same image tag to each instance explicitly. The deploy script requires `-ContainerAppName` and rejects the legacy shared app `ca-qos-dev-storefront` (not an approved target).
 
 | Instance | Container App | Host |
 |---|---|---|
@@ -79,5 +79,13 @@ Rollback is target-specific — redeploy a prior tag to the same `-ContainerAppN
 ```
 
 API deploy (`ca-qos-dev-api`) is handled by the qos-app repository, not this storefront script.
+
+### Isolation proof and legacy retirement (QOS-85)
+
+Execute the human-run proof and evidence pack using:
+
+- **Runbook:** [`deploy/qos-85-isolation-proof.md`](deploy/qos-85-isolation-proof.md)
+- **Evidence helper:** `deploy/capture-storefront-evidence.ps1` (read-only snapshots + unchanged diff)
+- **Evidence output:** `deploy/evidence/qos-85/` (created during proof; do not commit secrets)
 
 Remove `.next` before ACR upload if a local dev server holds a lock (or rely on `.dockerignore`).
