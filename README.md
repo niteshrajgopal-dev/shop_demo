@@ -1,6 +1,6 @@
 # shop_demo — QOS Storefront Renderer
 
-Multi-tenant Next.js storefront for the QOS Storefront Platform. One image serves both dev tenants on the shared runtime (`ca-qos-dev-storefront`):
+Multi-tenant Next.js storefront for the QOS Storefront Platform. One reusable image serves both dev tenants on isolated Container Apps (ADR-SF-01 / QOS-80 v8 topology):
 
 | Host | Theme preset | Home experience |
 |---|---|---|
@@ -46,15 +46,38 @@ npm run verify:qos-78   # full flowers/quotes host isolation + health
 npm run verify:qos-77   # Floréa hero screenshots (local Playwright)
 ```
 
-## Deploy (shared dev runtime)
+## Deploy (isolated dev storefront instances)
 
 Builds as a Next.js standalone app (`output: "standalone"`) — see `Dockerfile`.
 
+Build once, then deploy the same image tag to each storefront instance explicitly. The deploy script requires `-ContainerAppName` and rejects the legacy shared app `ca-qos-dev-storefront`.
+
+| Instance | Container App | Host |
+|---|---|---|
+| Quotes | `ca-qos-dev-storefront-quotes` | `quotes.dev.qosapp.com` |
+| Floréa | `ca-qos-dev-storefront-florea` | `flowers.dev.qosapp.com` |
+
+Approved target pattern: `ca-qos-dev-storefront-<instance>` in `rg-qos-dev-core`.
+
 ```powershell
+# 1. Build and push reusable image (defaults: qosdevacr.azurecr.io/qos-storefront)
 .\deploy\build-and-push-to-acr.ps1 -ImageTag "0.10.0"
-.\deploy\deploy-to-acr.ps1 -ImageTag "0.10.0" -WaitForHealth
+
+# 2. Deploy to Quotes only
+.\deploy\deploy-to-acr.ps1 -ContainerAppName "ca-qos-dev-storefront-quotes" -ImageTag "0.10.0" -WaitForHealth
+
+# 3. Deploy to Floréa only (same image tag)
+.\deploy\deploy-to-acr.ps1 -ContainerAppName "ca-qos-dev-storefront-florea" -ImageTag "0.10.0" -WaitForHealth
 ```
 
-Defaults target `qosdevacr.azurecr.io/qos-storefront` → `ca-qos-dev-storefront` in `rg-qos-dev-core`.
+Omitting `-ContainerAppName` or using a non-matching name fails before any Azure mutation. Each invocation updates only the named app.
+
+Rollback is target-specific — redeploy a prior tag to the same `-ContainerAppName`:
+
+```powershell
+.\deploy\deploy-to-acr.ps1 -ContainerAppName "ca-qos-dev-storefront-quotes" -ImageTag "0.9.0"
+```
+
+API deploy (`ca-qos-dev-api`) is handled by the qos-app repository, not this storefront script.
 
 Remove `.next` before ACR upload if a local dev server holds a lock (or rely on `.dockerignore`).
